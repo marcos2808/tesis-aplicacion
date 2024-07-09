@@ -1,0 +1,62 @@
+body, html {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    font-family: 'Roboto Mono', monospace;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .register-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 400px; 
+  }
+  
+  .register-image {
+    margin-bottom: 20px;
+  }
+  
+  .register-title {
+    color: #ffff;
+    font-size: 50.52px;
+    font-weight: bold;
+    margin-bottom: 10px;
+  }
+  
+  .register-input-group {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    margin-bottom: 15px;
+    width: 100%; 
+  }
+  
+  .register-input-label {
+    color: #ffff;
+    font-size: 16px;
+    margin-bottom: 5px;
+  }
+  
+  .register-input {
+    width: 100%;
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+  }
+  
+  .login-link {
+    color: #ffff;
+    font-size: 16px;
+    margin-top: 20px;
+  }
+  
+  .bold {
+    font-weight: bold;
+    cursor: pointer;
+  }
+  
