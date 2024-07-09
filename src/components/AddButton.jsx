@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
-import './AddButton.css'; // Asegúrate de crear este archivo para los estilos
+import './AddButton.css';
 
-const AddButton = ({ svgIcon }) => {
+const AddButton = () => {
   const [inputs, setInputs] = useState([]);
 
   const addInput = () => {
@@ -17,7 +17,7 @@ const AddButton = ({ svgIcon }) => {
   return (
     <div className="add-button-container">
       <button className="add-button" onClick={addInput}>
-        <img src={svgIcon} alt="Plus" />
+        <img src="/img/AddButton.svg" alt="Add" />
       </button>
       {inputs.map((input, index) => (
         <div key={index} className="input-container">

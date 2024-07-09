@@ -1,7 +1,7 @@
 import React from 'react';
-import './PrincipalButton.css'; // Asegúrate de crear este archivo para los estilos
+import './PrincipalButton.css'; 
 
- const PrincipalButton = ({ text, onClick }) => {
+ function PrincipalButton ({ text, onClick }) {
   return (
     <button className="principal-button" onClick={onClick}>
       {text}

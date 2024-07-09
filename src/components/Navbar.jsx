@@ -1,9 +1,9 @@
 import React from 'react';
-import { useNavigate } from 'react-router-dom'; // Importa useNavigate en lugar de useHistory
-import './Navbar.css'; // Asegúrate de crear este archivo para los estilos
+import { useNavigate } from 'react-router-dom'; 
+import './Navbar.css'; 
 // import logo from '../assets/logo.png'; // Asegúrate de tener el logo en la ubicación correcta
 
-const Navbar = () => {
+function Navbar() {
   const navigate = useNavigate();
 
   const handleMenuClick = (path) => {
