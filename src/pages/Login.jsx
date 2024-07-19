@@ -1,8 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from 'react-router-dom';
 import PrincipalButton from "../components/PrincipalButton";
-import './Login.css';
-import loginImage from '../../img/Login.svg'; // Asegúrate de tener el SVG en la ubicación correcta
+import loginImage from '../../img/Login.svg'; 
 
 function Login(){
   const [fundoName, setFundoName] = useState("");
@@ -21,33 +20,34 @@ function Login(){
   };
 
   return (
-    <div className="login-container">
-      <img src={loginImage} alt="Login" className="login-image" />
-      <h3 className="login-title">Inicio de sesion</h3>
-      <p className="login-subtitle">Rellene estos campos para iniciar su sesion en la aplicacion</p>
-      <div className="login-input-group">
-        <label className="login-input-label">Nombre del fundo</label>
-        <input
-          type="text"
-          placeholder="ej: la esperanza"
-          value={fundoName}
-          onChange={(e) => setFundoName(e.target.value)}
-          className="login-input"
-        />
+    <div className="min-h-screen flex items-center justify-center bg-[#0F250E] p-4">
+      <div className="flex flex-col items-center justify-center w-full max-w-md">
+        <img src={loginImage} alt="Login" className="mb-5 max-w-xs" />
+        <h3 className="text-white text-4xl font-bold mb-2">Inicio de sesión</h3>
+        <div className="w-full mb-4">
+          <label className="block text-white text-lg mb-2">Nombre del fundo</label>
+          <input
+            type="text"
+            placeholder="ej: la esperanza"
+            value={fundoName}
+            onChange={(e) => setFundoName(e.target.value)}
+            className="w-full p-2 text-lg border rounded"
+          />
+        </div>
+        <div className="w-full mb-4">
+          <label className="block text-white text-lg mb-2">Contraseña</label>
+          <input
+            type="password"
+            placeholder="ej: pepito123.."
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            className="w-full p-2 text-lg border rounded"
+          />
+        </div>
+        <p className="text-white text-lg font-bold mb-5 cursor-pointer text-center">¿Olvidó su contraseña?</p>
+        <PrincipalButton text="Iniciar sesión" onClick={handleLogin} />
+        <p className="text-white text-lg mt-5">¿No tiene cuenta? <span onClick={handleRegisterNavigation} className="font-bold cursor-pointer">Registrarse</span></p>
       </div>
-      <div className="login-input-group">
-        <label className="login-input-label">Contraseña</label>
-        <input
-          type="password"
-          placeholder="ej: pepito123.."
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          className="login-input"
-        />
-      </div>
-      <p className="forgot-password">Olvido su contraseña?</p>
-      <PrincipalButton text="Iniciar sesion" onClick={handleLogin} />
-      <p className="register-link">No tiene cuenta? <span onClick={handleRegisterNavigation}>Registrarse</span></p>
     </div>
   );
 };

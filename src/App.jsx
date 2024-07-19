@@ -4,6 +4,8 @@ import Register from "./pages/Register.jsx";
 import Home from "./pages/Home.jsx";
 import Carne from "./pages/Prod.carne.jsx";
 import Leche from "./pages/Prod.leche.jsx";
+import './tailwind.css';
+
 
 
 function App() {

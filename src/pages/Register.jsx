@@ -1,10 +1,9 @@
 import React, { useState } from "react";
 import { useNavigate } from 'react-router-dom';
 import PrincipalButton from "../components/PrincipalButton";
-import './Register.css';
-import registerImage from '../../img/Register.svg'; // Asegúrate de tener el SVG en la ubicación correcta
+import registerImage from '../../img/Register.svg'; 
 
-function Register () {
+function Register() {
   const [fundoName, setFundoName] = useState("");
   const [owner, setOwner] = useState("");
   const [password, setPassword] = useState("");
@@ -25,51 +24,53 @@ function Register () {
   };
 
   return (
-    <div className="register-container">
-      <img src={registerImage} alt="Register" className="register-image" />
-      <h3 className="register-title">Registro</h3>
-      <div className="register-input-group">
-        <label className="register-input-label">Nombre del fundo</label>
-        <input
-          type="text"
-          placeholder="ej: la esperanza"
-          value={fundoName}
-          onChange={(e) => setFundoName(e.target.value)}
-          className="register-input"
-        />
+    <div className="min-h-screen flex items-center justify-center bg-[#0F250E] p-4">
+      <div className="flex flex-col items-center justify-center w-full max-w-md">
+        <img src={registerImage} alt="Register" className="mb-5 max-w-xs" />
+        <h3 className="text-white text-4xl font-bold mb-2">Registro</h3>
+        <div className="w-full mb-4">
+          <label className="block text-white text-lg mb-2">Nombre del fundo</label>
+          <input
+            type="text"
+            placeholder="ej: la esperanza"
+            value={fundoName}
+            onChange={(e) => setFundoName(e.target.value)}
+            className="w-full p-2 text-lg border rounded"
+          />
+        </div>
+        <div className="w-full mb-4">
+          <label className="block text-white text-lg mb-2">Propietario</label>
+          <input
+            type="text"
+            placeholder="ej: jubert perez"
+            value={owner}
+            onChange={(e) => setOwner(e.target.value)}
+            className="w-full p-2 text-lg border rounded"
+          />
+        </div>
+        <div className="w-full mb-4">
+          <label className="block text-white text-lg mb-2">Contraseña</label>
+          <input
+            type="password"
+            placeholder="ej: pedrito123.."
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            className="w-full p-2 text-lg border rounded"
+          />
+        </div>
+        <div className="w-full mb-4">
+          <label className="block text-white text-lg mb-2">Confirmar contraseña</label>
+          <input
+            type="password"
+            placeholder="ej: pedrito123.."
+            value={confirmPassword}
+            onChange={(e) => setConfirmPassword(e.target.value)}
+            className="w-full p-2 text-lg border rounded"
+          />
+        </div>
+        <PrincipalButton text="Registrarse" onClick={handleRegister} />
+        <p className="text-white text-lg mt-5">¿Ya tienes cuenta? <span onClick={handleLoginNavigation} className="font-bold cursor-pointer">Inicia sesión</span></p>
       </div>
-      <div className="register-input-group">
-        <label className="register-input-label">Propietario</label>
-        <input
-          type="text"
-          placeholder="ej: jubert perez"
-          value={owner}
-          onChange={(e) => setOwner(e.target.value)}
-          className="register-input"
-        />
-      </div>
-      <div className="register-input-group">
-        <label className="register-input-label">Contraseña</label>
-        <input
-          type="password"
-          placeholder="ej: pedrito123.."
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          className="register-input"
-        />
-      </div>
-      <div className="register-input-group">
-        <label className="register-input-label">Confirmar contraseña</label>
-        <input
-          type="password"
-          placeholder="ej: pedrito123.."
-          value={confirmPassword}
-          onChange={(e) => setConfirmPassword(e.target.value)}
-          className="register-input"
-        />
-      </div>
-      <PrincipalButton text="Registrarse" onClick={handleRegister} />
-      <p className="login-link">Ya tienes cuenta? <span className="bold" onClick={handleLoginNavigation}>Inicia sesion</span></p>
     </div>
   );
 };
