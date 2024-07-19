@@ -1,6 +1,7 @@
 {
   "name": "back-tesis",
   "version": "1.0.0",
+  "type": "module",
   "description": "backend para TEG Vejega Quintero Marcos Ramon",
   "main": "index.js",
   "scripts": {
