@@ -4,8 +4,9 @@ import Register from "./pages/Register.jsx";
 import Home from "./pages/Home.jsx";
 import Carne from "./pages/Prod.carne.jsx";
 import Leche from "./pages/Prod.leche.jsx";
-import './tailwind.css';
-
+import Peso from "./pages/peso.animal.jsx";
+import Produccion from "./pages/Prod.diaria.jsx";
+import Lactansia from "./pages/Prod.lactansia.jsx";
 
 
 function App() {
@@ -17,8 +18,11 @@ function App() {
         <Route path="/Login" element = {<Login/>}/>
         <Route path="/Register" element = {<Register/>}/>
         <Route path="/Home" element = {<Home/>}/>
-        <Route path="/Carne" element = {<Carne/>}></Route>
-        <Route path="/Leche" element = {<Leche/>}></Route>
+        <Route path="/Carne" element = {<Carne/>}/>
+        <Route path="/Leche" element = {<Leche/>}/>
+        <Route path="/Peso" element = {<Peso/>}/>
+        <Route path="/Produccion" element = {<Produccion/>}/>
+        <Route path="/Lactansia" element = {<Lactansia/>}/>
       </Routes>
     </BrowserRouter>
   )

@@ -111,8 +111,8 @@ function Leche() {
             <div className="flex flex-col md:flex-row md:justify-between gap-4 w-full mt-5">
                 <PrincipalButton text="Confirmar datos" onClick={handleConfirmData} />
                 <PrincipalButton text="Volver al home" onClick={() => navigate("/Home")} />
-                <PrincipalButton text="Lactancia por animal" />
-                <PrincipalButton text="Producción diaria" />
+                <PrincipalButton text="Lactancia por animal"/>
+                <PrincipalButton text="Producción diaria" onClick={() => navigate("/Produccion")} />
             </div>
             {showModal && <ModalLeche onClose={handleCloseModal} />}
         </div>
