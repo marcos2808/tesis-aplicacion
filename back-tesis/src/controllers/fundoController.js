@@ -24,9 +24,7 @@ class FundoController {
     }
 
     async deleteFundo(req, res) {
-        const { id } = req.body;  // Cambié esto para obtener el ID desde el cuerpo de la solicitud
-
-        if (!id) return res.status(400).json({ message: 'Id is required to delete a fundo.' });
+        const id = req.user._id; 
 
         try {
             const fundo = await Fundo.findById(id);
@@ -42,7 +40,7 @@ class FundoController {
 
     async updatePassword(req, res) {
         const { newPassword } = req.body;
-        const id = req.user._id; // Obteniendo el id del usuario autenticado
+        const id = req.user._id;
 
         if (!newPassword) return res.status(400).json({ message: "New password is required to update a fundo's password." });
 
