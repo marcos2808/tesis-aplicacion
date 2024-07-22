@@ -41,10 +41,9 @@ class FundoController {
     }
 
     async updatePassword(req, res) {
-        const { id } = req.body;
         const { newPassword } = req.body;
+        const id = req.user._id; // Obteniendo el id del usuario autenticado
 
-        if (!id) return res.status(400).json({ message: "Id is required to update a fundo's password." });
         if (!newPassword) return res.status(400).json({ message: "New password is required to update a fundo's password." });
 
         try {
@@ -64,9 +63,9 @@ class FundoController {
     }
 
     async updateFundo(req, res) {
-        const { id, newFundoName } = req.body;
+        const {newFundoName } = req.body;
+        const id = req.user._id;
 
-        if (!id) return res.status(400).json({ message: "Id is required to update a fundo's name." });
         if (!newFundoName) return res.status(400).json({ message: "New fundo name is required to update a fundo's name." });
 
         try {
