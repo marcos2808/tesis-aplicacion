@@ -6,7 +6,7 @@ class CarneController {
         const fundoId = req.user._id;
 
         // Establece el valor de epoca en función de la temporada
-        const epoca = temporada.toLowerCase() === "invierno" ? true : false;
+        const epoca = temporada ? temporada.toLowerCase() === "invierno" : false;
 
         // Validar los campos requeridos
         if ( !sexo || pesoNacer === undefined || !fechaNacimiento || pesoDestete === undefined) {
