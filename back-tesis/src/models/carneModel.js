@@ -4,77 +4,58 @@ const carneSchema = new mongoose.Schema({
     fundo: {
         type: mongoose.Schema.Types.ObjectId,
         ref: "Fundo",
-        required: true,
-        unique: false
+        required: true
     },
-    
+    animal: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Animal",
+        required: true
+    },
     sexo: {
         type: String,
-        required: true,
-        unique: false
+        required: true
     },
-
     epoca: {
         type: Boolean,
-        required: true,
-        unique: false
+        required: true
     },
-
     pesoNacer: {
         type: Number,
-        required: true,
-        unique: false
+        required: true
     },
-
     fechaNacimiento: {
         type: Date,
-        required: true,
-        unique: false
+        required: true
     },
-
     pesoDestete: {
         type: Number,
-        required: true,
-        unique: false
+        required: true
     },
-
     pesoAnio: {
         type: Number,
-        required: false,
-        unique: false
+        required: false
     },
-
     fechaAnio: {
         type: Date,
-        required: false,
-        unique: false
+        required: false
     },
-
     peso18Meses: {
         type: Number,
-        required: false,
-        unique: false
+        required: false
     },
-
     fecha18Meses: {
         type: Date,
-        required: false,
-        unique: false
+        required: false
     },
-
     peso24Meses: {
         type: Number,
-        required: false,
-        unique: false
+        required: false
     },
-
     fecha24Meses: {
         type: Date,
-        required: false,
-        unique: false
+        required: false
     }
-
-}, { timestamps: true })
+}, { timestamps: true });
 
 const Carne = mongoose.model("Carne", carneSchema);
 

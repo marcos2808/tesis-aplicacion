@@ -2,19 +2,20 @@ import Carne from "../models/carneModel.js";
 
 class CarneController {
     async createCarne(req, res) {
-        const {  sexo, pesoNacer, fechaNacimiento, pesoDestete, temporada } = req.body;
+        const { animalId, sexo, pesoNacer, fechaNacimiento, pesoDestete, temporada } = req.body;
         const fundoId = req.user._id;
 
         // Establece el valor de epoca en función de la temporada
         const epoca = temporada ? temporada.toLowerCase() === "invierno" : false;
 
         // Validar los campos requeridos
-        if ( !sexo || pesoNacer === undefined || !fechaNacimiento || pesoDestete === undefined) {
+        if (!animalId || !sexo || pesoNacer === undefined || !fechaNacimiento || pesoDestete === undefined) {
             return res.status(400).json({ message: "Todos los campos son obligatorios" });
         }
 
         try {
             const carne = new Carne({
+                animal: animalId,
                 fundo: fundoId,
                 sexo,
                 epoca,
@@ -31,13 +32,14 @@ class CarneController {
     }
 
     async updateCarne(req, res) {
-        const { id, pesoAnio, fechaAnio, peso18Meses, fecha18Meses, peso24Meses, fecha24Meses } = req.body;
+        const { id, animalId, pesoAnio, fechaAnio, peso18Meses, fecha18Meses, peso24Meses, fecha24Meses } = req.body;
+        const fundoId = req.user._id;
 
-        // Validar el id
-        if (!id) return res.status(400).json({ message: "El ID es obligatorio para actualizar el registro de carne" });
+        // Validar los campos requeridos
+        if (!id || !animalId) return res.status(400).json({ message: "El ID del registro y el ID del animal son obligatorios para actualizar el registro de carne" });
 
         try {
-            const carne = await Carne.findById(id);
+            const carne = await Carne.findOne({ _id: id, animal: animalId, fundo: fundoId });
             if (!carne) return res.status(404).json({ message: "Registro de carne no encontrado" });
 
             // Actualizar los campos si se proporcionan
