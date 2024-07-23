@@ -9,5 +9,7 @@ carneRouter.use(authenticate);
 
 carneRouter.post("/createCarne", carneController.createCarne);
 carneRouter.put("/updateCarne", carneController.updateCarne);
+carneRouter.get("/reporteCarne", carneController.reporteCarne);
+
 
 export default carneRouter;
