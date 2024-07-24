@@ -5,10 +5,10 @@ import authenticate from "../middlewares/authMiddlewares.js";
 
 const fundoRouter = Router();
 
-fundoRouter.use(authenticate);
 
-fundoRouter.post("/createFundo", FundoController.createFundo);
-fundoRouter.delete("/deleteFundo", FundoController.deleteFundo);
+
+fundoRouter.post("/createFundo", authenticate, FundoController.createFundo);
+fundoRouter.delete("/deleteFundo", authenticate,FundoController.deleteFundo);
 fundoRouter.put("/updatePassword", FundoController.updatePassword);
 fundoRouter.put("/updateFundo", FundoController.updateFundo);
 

@@ -37,21 +37,28 @@ class FundoController {
             res.status(500).json({ message: error.message });
         }
     }
-
     async updatePassword(req, res) {
-        const { newPassword } = req.body;
-        const id = req.user._id;
+        const { fundoName, newPassword } = req.body;
 
-        if (!newPassword) return res.status(400).json({ message: "New password is required to update a fundo's password." });
+        if (!fundoName || !newPassword) {
+            return res.status(400).json({ message: "Fundo name and new password are required to update a fundo's password." });
+        }
 
         try {
-            const fundo = await Fundo.findById(id);
-            if (!fundo) return res.status(404).json({ message: 'Fundo not found.' });
+            const fundo = await Fundo.findOne({ fundo: fundoName });
+            if (!fundo) {
+                return res.status(404).json({ message: 'Fundo not found.' });
+            }
 
-            const passwordMatch = await fundo.comparePassword(newPassword);
-            if (passwordMatch) return res.status(400).json({ message: 'New password cannot be the same as the old password.' });
+            // Comparar nueva contraseña con la actual
+            const passwordMatch = await bcrypt.compare(newPassword, fundo.password);
+            if (passwordMatch) {
+                return res.status(400).json({ message: 'New password cannot be the same as the old password.' });
+            }
 
-            fundo.password = newPassword;
+            // Hashificar la nueva contraseña
+            const hashedPassword = await bcrypt.hash(newPassword, 10);
+            fundo.password = hashedPassword;
             await fundo.save();
 
             res.status(200).json({ message: `${fundo.fundo}'s password updated successfully.` });

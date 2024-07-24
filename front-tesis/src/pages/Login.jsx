@@ -1,18 +1,38 @@
 import React, { useState } from "react";
 import { useNavigate } from 'react-router-dom';
 import PrincipalButton from "../components/PrincipalButton";
-import loginImage from '../../img/Login.svg'; 
+import loginImage from '../../img/Login.svg';
 
-function Login(){
+function Login() {
   const [fundoName, setFundoName] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
 
-  const handleLogin = () => {
-    console.log(`Nombre del fundo: ${fundoName}, Contraseña: ${password}`);
-    setFundoName("");
-    setPassword("");
-    navigate('/Home');
+  const handleLogin = async () => {
+    try {
+      const response = await fetch('http://localhost:5000/api/auth/login', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ fundo: fundoName, password }),
+      });
+
+      const data = await response.json();
+
+      if (response.ok) {
+        console.log(`Login successful: ${data.token}`);
+        setFundoName("");
+        setPassword("");
+        localStorage.setItem('token', data.token);
+        navigate('/Home');
+      } else {
+        alert(`Login failed: ${data.message}`);
+      }
+    } catch (error) {
+      console.error('Error:', error);
+      alert('Error al intentar iniciar sesión. Por favor, intente de nuevo.');
+    }
   };
 
   const handleRegisterNavigation = () => {
@@ -44,12 +64,13 @@ function Login(){
             className="w-full p-2 text-lg border rounded"
           />
         </div>
-        <p className="text-white text-lg font-bold mb-5 cursor-pointer text-center">¿Olvidó su contraseña?</p>
+        <p className="text-white text-lg font-bold mb-5 cursor-pointer text-center" onClick={() => alert("Funcionalidad de recuperación de contraseña no implementada.")}>¿Olvidó su contraseña?</p>
         <PrincipalButton text="Iniciar sesión" onClick={handleLogin} />
         <p className="text-white text-lg mt-5">¿No tiene cuenta? <span onClick={handleRegisterNavigation} className="font-bold cursor-pointer">Registrarse</span></p>
       </div>
     </div>
   );
-};
+}
 
 export default Login;
+

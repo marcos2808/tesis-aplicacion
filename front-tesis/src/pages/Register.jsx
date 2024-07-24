@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from 'react-router-dom';
 import PrincipalButton from "../components/PrincipalButton";
-import registerImage from '../../img/Register.svg'; 
+import registerImage from '../../img/Register.svg';
 
 function Register() {
   const [fundoName, setFundoName] = useState("");
@@ -10,13 +10,36 @@ function Register() {
   const [confirmPassword, setConfirmPassword] = useState("");
   const navigate = useNavigate();
 
-  const handleRegister = () => {
-    console.log(`Nombre del fundo: ${fundoName}, Propietario: ${owner}, Contraseña: ${password}, Confirmar Contraseña: ${confirmPassword}`);
-    setFundoName("");
-    setOwner("");
-    setPassword("");
-    setConfirmPassword("");
-    navigate('/Login');
+  const handleRegister = async () => {
+    if (password !== confirmPassword) {
+      console.error("Passwords do not match");
+      return;
+    }
+
+    try {
+      const response = await fetch('http://localhost:5000/api/auth/register', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ fundo: fundoName, propietario: owner, password }),
+      });
+
+      const data = await response.json();
+
+      if (response.ok) {
+        console.log(`Register successful: ${data.message}`);
+        setFundoName("");
+        setOwner("");
+        setPassword("");
+        setConfirmPassword("");
+        navigate('/Login');
+      } else {
+        console.error(`Register failed: ${data.message}`);
+      }
+    } catch (error) {
+      console.error('Error:', error);
+    }
   };
 
   const handleLoginNavigation = () => {
