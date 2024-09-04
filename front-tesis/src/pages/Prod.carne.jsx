@@ -9,30 +9,34 @@ function Carne() {
   const [showModal, setShowModal] = useState(false);
   const [isAddButtonDisabled, setIsAddButtonDisabled] = useState(false);
 
-  // Estado para los inputs de la primera y segunda fila
+  // Estado para los inputs de la primera fila
   const [animal, setAnimal] = useState("");
   const [padre, setPadre] = useState("");
   const [madre, setMadre] = useState("");
   const [raza, setRaza] = useState("");
+
+  // Estado para los inputs de la segunda fila
   const [sexo, setSexo] = useState("");
   const [epoca, setEpoca] = useState("");
   const [pesoAlNacer, setPesoAlNacer] = useState("");
   const [fechaNacimiento, setFechaNacimiento] = useState("");
+  const [pesoDestete, setPesoDestete] = useState("");
+  const [pesoDesteteInputs, setPesoDesteteInputs] = useState([]);
 
   const handleConfirmData = async () => {
-    // Validar que todos los campos obligatorios estén completos
+    // Validar que todos los campos de la primera fila estén completos
     if (!animal || !padre || !madre || !raza) {
       alert("Por favor, complete todos los campos obligatorios.");
       return;
     }
-
-    // Aquí se enviarán los datos a la base de datos
+  
     try {
-      const response = await fetch('http://localhost:5000/api/animal/createAnimal', {
+      // Crear el animal
+      const responseAnimal = await fetch('http://localhost:5000/api/animal/createAnimal', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': `Bearer ${localStorage.getItem('token')}`, // Agrega el token para la autenticación
+          'Authorization': `Bearer ${localStorage.getItem('token')}`,
         },
         body: JSON.stringify({
           animal,
@@ -41,18 +45,50 @@ function Carne() {
           raza
         }),
       });
-
-      const data = await response.json();
-
-      if (response.ok) {
-        console.log("Animal creado:", data);
-        setShowModal(true);
+  
+      const dataAnimal = await responseAnimal.json();
+  
+      if (responseAnimal.ok) {
+        console.log("Animal creado:", dataAnimal);
+  
+        // Crear el registro de carne usando el ID del animal
+        const responseCarne = await fetch('http://localhost:5000/api/carne/createCarne', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${localStorage.getItem('token')}`,
+          },
+          body: JSON.stringify({
+            animalId: dataAnimal._id, // Usar el ID del animal creado
+            sexo,
+            pesoNacer: pesoAlNacer,
+            fechaNacimiento,
+            pesoDestete: pesoDesteteInputs,
+            temporada: epoca
+          }),
+        });
+  
+        const dataCarne = await responseCarne.json();
+  
+        if (responseCarne.ok) {
+          console.log("Registro de carne creado:", dataCarne);
+          setShowModal(true);
+        } else {
+          alert(`Error al crear el registro de carne: ${dataCarne.message}`);
+        }
       } else {
-        alert(`Error al crear el animal: ${data.message}`);
+        alert(`Error al crear el animal: ${dataAnimal.message}`);
       }
     } catch (error) {
       console.error('Error:', error);
-      alert('Error al intentar crear el animal. Por favor, intente de nuevo.');
+      alert('Error al intentar crear el animal y/o el registro de carne. Por favor, intente de nuevo.');
+    }
+  };
+  
+  const handleAddDestete = () => {
+    if (pesoDestete) {
+      setPesoDesteteInputs([...pesoDesteteInputs, pesoDestete]);
+      setPesoDestete("");
     }
   };
 
@@ -62,6 +98,40 @@ function Carne() {
 
   const handleDisableAddButton = () => {
     setIsAddButtonDisabled(true);
+  };
+
+  const handleGenerateReport = async () => {
+    try {
+      const response = await fetch('http://localhost:5000/api/carne/reporteCarne', {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${localStorage.getItem('token')}`, // Agrega el token para la autenticación
+        },
+      });
+
+      if (response.ok) {
+        // Crear un enlace para descargar el archivo Excel
+        const blob = await response.blob();
+        const url = window.URL.createObjectURL(blob);
+        const link = document.createElement('a');
+        link.href = url;
+        link.setAttribute('download', 'reporte_carne.xlsx');
+        document.body.appendChild(link);
+        link.click();
+        link.remove();
+      } else {
+        const data = await response.json();
+        alert(`Error al generar el reporte: ${data.message}`);
+      }
+    } catch (error) {
+      console.error('Error:', error);
+      alert('Error al intentar generar el reporte. Por favor, intente de nuevo.');
+    }
+  };
+
+  const handleGoHome = () => {
+    navigate('/'); // Cambia la ruta según sea necesario para la vista principal
   };
 
   return (
@@ -126,16 +196,6 @@ function Carne() {
               />
             </div>
             <div className="flex flex-col w-36 mb-4">
-              <label className="text-lg mb-2 text-white">época</label>
-              <input
-                type="text"
-                placeholder="invierno"
-                value={epoca}
-                onChange={(e) => setEpoca(e.target.value)}
-                className="p-2 text-lg rounded border border-gray-300 text-black"
-              />
-            </div>
-            <div className="flex flex-col w-36 mb-4">
               <label className="text-lg mb-2 text-white">peso al nacer</label>
               <input
                 type="text"
@@ -145,6 +205,7 @@ function Carne() {
                 className="p-2 text-lg rounded border border-gray-300 text-black"
               />
             </div>
+
             <div className="flex flex-col w-64 mb-4">
               <label className="text-lg mb-2 text-white">fecha de nacimiento</label>
               <input
@@ -154,16 +215,58 @@ function Carne() {
                 className="p-2 text-lg rounded border border-gray-300 text-black w-full"
               />
             </div>
-            <div className="flex items-center mb-6">
-              <AddButton onDisable={handleDisableAddButton} isDisabled={isAddButtonDisabled} />
-              <p className="ml-6 text-lg">Si su animal ya tiene un peso de destete haga click en el botón de más, sino por favor vuelva al home y termine su sesión hasta que lo tenga.</p>
+
+            
+            <div className="flex flex-col w-36 mb-4">
+              <label className="text-lg mb-2 text-white">peso de destete</label>
+              <div className="flex">
+                <AddButton
+                  onClick={handleAddDestete}
+                  disabled={isAddButtonDisabled}
+                  className="ml-4"
+                />
+              </div>
+              <p className="mt-2 text-sm text-white">¿El animal posee un peso de destete?</p>
             </div>
           </div>
-        </div>
-        <div className="flex flex-col md:flex-row md:justify-between gap-4 w-full">
-          <PrincipalButton text="Confirmar datos" onClick={handleConfirmData} />
-          <PrincipalButton text="Volver al home" onClick={() => navigate('/Home')} />
-          <PrincipalButton text="Reporte por animal" />
+
+            <div className="flex flex-col w-36 mb-4">
+              <label className="text-lg mb-2 text-white">época</label>
+              <input
+                type="text"
+                placeholder="invierno"
+                value={epoca}
+                onChange={(e) => setEpoca(e.target.value)}
+                className="p-2 text-lg rounded border border-gray-300 text-black"
+              />
+            </div>
+
+          <div className="flex flex-col w-full mb-6">
+            <div className="flex flex-wrap gap-8 mb-6">
+              {pesoDesteteInputs.map((input, index) => (
+                <div key={index} className="flex items-center mb-2">
+                  <input
+                    type="text"
+                    value={input}
+                    readOnly
+                    className="p-2 text-lg rounded border border-gray-300 text-black w-36"
+                  />
+                  <button
+                    type="button"
+                    onClick={() => setPesoDesteteInputs(pesoDesteteInputs.filter((_, i) => i !== index))}
+                    className="ml-4 text-red-500"
+                  >
+                    x
+                  </button>
+                </div>
+              ))}
+            </div>
+            <div className="flex justify-center gap-4">
+              <PrincipalButton onClick={handleConfirmData} className="w-36" text="Confirmar datos"/>
+              <PrincipalButton onClick={handleGenerateReport} className= "w-36" text="Reporte por animal"/>
+              <PrincipalButton onClick={handleGoHome} className= "w-36" text="Volver al Home"/>
+            </div>
+          </div>
         </div>
       </form>
       {showModal && <ModalCarne onClose={handleCloseModal} />}

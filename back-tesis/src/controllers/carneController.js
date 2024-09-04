@@ -60,16 +60,16 @@ class CarneController {
         try {
             // Obtener todos los registros de Carne y los datos asociados de Animal
             const carnes = await Carne.find().populate('animal');
-    
+
             // Verificar que hay datos
             if (carnes.length === 0) {
                 return res.status(404).json({ message: "No hay datos disponibles para generar el reporte." });
             }
-    
+
             // Configuración del libro de trabajo y la hoja
             const wb = new Excel.Workbook();
             const ws = wb.addWorksheet('Reporte de Carne');
-    
+
             // Definir estilos
             const style = wb.createStyle({
                 alignment: {
@@ -80,43 +80,27 @@ class CarneController {
                     size: 12,
                 },
             });
-    
+
             // Configurar columnas
-            ws.column(1).setWidth(30);
-            ws.column(2).setWidth(20);
-            ws.column(3).setWidth(20);
-            ws.column(4).setWidth(20);
-            ws.column(5).setWidth(20);
-            ws.column(6).setWidth(20);
-            ws.column(7).setWidth(20);
-            ws.column(8).setWidth(20);
-            ws.column(9).setWidth(20);
-            ws.column(10).setWidth(20);
-            ws.column(11).setWidth(20);
-            ws.column(12).setWidth(20);
-    
+            const columnWidths = [30, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20];
+            columnWidths.forEach((width, index) => ws.column(index + 1).setWidth(width));
+
             // Agregar encabezados
-            ws.cell(1, 1).string('Número del Animal').style(style);
-            ws.cell(1, 2).string('Sexo').style(style);
-            ws.cell(1, 3).string('Epoca').style(style);
-            ws.cell(1, 4).string('Peso al Nacer').style(style);
-            ws.cell(1, 5).string('Fecha de Nacimiento').style(style);
-            ws.cell(1, 6).string('Peso al Destete').style(style);
-            ws.cell(1, 7).string('Peso a 1 Año').style(style);
-            ws.cell(1, 8).string('Fecha a 1 Año').style(style);
-            ws.cell(1, 9).string('Peso a 18 Meses').style(style);
-            ws.cell(1, 10).string('Fecha a 18 Meses').style(style);
-            ws.cell(1, 11).string('Peso a 24 Meses').style(style);
-            ws.cell(1, 12).string('Fecha a 24 Meses').style(style);
-    
+            const headers = [
+                'Número del Animal', 'Sexo', 'Epoca', 'Peso al Nacer', 'Fecha de Nacimiento',
+                'Peso al Destete', 'Peso a 1 Año', 'Fecha a 1 Año', 'Peso a 18 Meses',
+                'Fecha a 18 Meses', 'Peso a 24 Meses', 'Fecha a 24 Meses'
+            ];
+            headers.forEach((header, index) => ws.cell(1, index + 1).string(header).style(style));
+
             // Agregar datos de Carne
             carnes.forEach((carne, index) => {
                 const fila = index + 2;
-    
+
                 // Verifica si el animal está presente y tiene el campo 'animal'
                 const numeroAnimal = carne.animal ? carne.animal.animal.toString() : 'Desconocido';
                 const epoca = carne.epoca ? 'Invierno' : 'Verano';
-    
+
                 ws.cell(fila, 1).string(numeroAnimal).style(style);
                 ws.cell(fila, 2).string(carne.sexo || 'Desconocido').style(style);
                 ws.cell(fila, 3).string(epoca).style(style);
@@ -130,7 +114,7 @@ class CarneController {
                 ws.cell(fila, 11).number(carne.peso24Meses || 0).style(style);
                 ws.cell(fila, 12).date(carne.fecha24Meses || new Date()).style(style);
             });
-    
+
             // Calcular estadísticas generales
             const datos = {
                 pesoNacer: [],
@@ -139,7 +123,7 @@ class CarneController {
                 peso18Meses: [],
                 peso24Meses: []
             };
-    
+
             carnes.forEach(carne => {
                 if (carne.pesoNacer !== undefined) datos.pesoNacer.push(carne.pesoNacer);
                 if (carne.pesoDestete !== undefined) datos.pesoDestete.push(carne.pesoDestete);
@@ -147,17 +131,17 @@ class CarneController {
                 if (carne.peso18Meses !== undefined) datos.peso18Meses.push(carne.peso18Meses);
                 if (carne.peso24Meses !== undefined) datos.peso24Meses.push(carne.peso24Meses);
             });
-    
+
             const calcularEstadisticas = (data) => {
                 if (data.length === 0) {
                     return { media: 0, desviacion: 0, maximo: 0, minimo: 0 };
                 }
-    
+
                 const calcularMedia = (arr) => arr.reduce((a, b) => a + b, 0) / arr.length;
                 const calcularDesviacion = (arr, media) => Math.sqrt(arr.reduce((a, b) => a + Math.pow(b - media, 2), 0) / arr.length);
                 const max = (arr) => Math.max(...arr);
                 const min = (arr) => Math.min(...arr);
-    
+
                 const media = calcularMedia(data);
                 return {
                     media,
@@ -166,7 +150,7 @@ class CarneController {
                     minimo: min(data)
                 };
             };
-    
+
             // Agregar encabezados para estadísticas
             const startRow = carnes.length + 3;
             ws.cell(startRow, 1).string('Campo').style(style);
@@ -174,30 +158,28 @@ class CarneController {
             ws.cell(startRow, 3).string('Desviación Estándar').style(style);
             ws.cell(startRow, 4).string('Máximo').style(style);
             ws.cell(startRow, 5).string('Mínimo').style(style);
-    
+
             // Agregar estadísticas generales
             let fila = startRow + 1;
             for (const [campo, valores] of Object.entries(datos)) {
                 if (valores.length > 0) {
                     const estadisticas = calcularEstadisticas(valores);
-    
+
                     ws.cell(fila, 1).string(campo).style(style);
                     ws.cell(fila, 2).number(estadisticas.media).style(style);
                     ws.cell(fila, 3).number(estadisticas.desviacion).style(style);
                     ws.cell(fila, 4).number(estadisticas.maximo).style(style);
                     ws.cell(fila, 5).number(estadisticas.minimo).style(style);
-    
                     fila++;
                 }
             }
-    
-            // Enviar archivo generado como respuesta
-            wb.write('ReporteCarne.xlsx', res);
+
+            // Enviar el archivo Excel como respuesta
+            wb.write('Reporte_Carne.xlsx', res);
         } catch (error) {
-            console.error("Error al generar el reporte:", error);
             res.status(500).json({ message: error.message });
         }
-    };
+    }
 }
 
 export default CarneController;

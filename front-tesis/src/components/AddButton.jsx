@@ -38,7 +38,7 @@ const AddButton = () => {
                 type="text"
                 value={input}
                 onChange={(event) => handleInputChange(index, event)}
-                className="w-[150px] h-[50px] border border-gray-300 rounded-md px-2"
+                className="w-[150px] h-[50px] border border-gray-300 rounded-md px-2 text-black"
               />
               <button
                 className="w-[37.5px] h-[37.5px] bg-red-500 rounded-full flex items-center justify-center text-white"
