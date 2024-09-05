@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import AddButton from "../components/AddButton";
 import PrincipalButton from "../components/PrincipalButton";
 import { useNavigate } from 'react-router-dom';
 import ModalCarne from "../components/ModalCarne";
@@ -6,6 +7,7 @@ import ModalCarne from "../components/ModalCarne";
 function Carne() {
   const navigate = useNavigate();
   const [showModal, setShowModal] = useState(false);
+  const [isAddButtonDisabled, setIsAddButtonDisabled] = useState(false);
 
   // Estado para los inputs de la primera fila
   const [animal, setAnimal] = useState("");
@@ -222,6 +224,10 @@ function Carne() {
                   value={pesoDestete}
                   onChange={(e) => setPesoDestete(e.target.value)}
                   className="p-2 text-lg rounded border border-gray-300 text-black mr-4"
+                />
+                <AddButton
+                  onClick={handleAddDestete}
+                  disabled={isAddButtonDisabled}
                 />
               </div>
               <p className="mt-2 text-sm text-white">¿El animal posee un peso de destete?</p>
