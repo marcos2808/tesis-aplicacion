@@ -46,8 +46,11 @@ function Carne() {
         }),
       });
   
+      console.log(responseAnimal);
       const dataAnimal = await responseAnimal.json();
-  
+
+      console.log(dataAnimal);
+      console.log(sexo, pesoAlNacer, fechaNacimiento, pesoDesteteInputs, epoca)
       if (responseAnimal.ok) {
         console.log("Animal creado:", dataAnimal);
   
@@ -59,11 +62,11 @@ function Carne() {
             'Authorization': `Bearer ${localStorage.getItem('token')}`,
           },
           body: JSON.stringify({
-            animalId: dataAnimal._id, // Usar el ID del animal creado
+            animalId: dataAnimal.animal._id, // Usar el ID del animal creado
             sexo,
             pesoNacer: pesoAlNacer,
             fechaNacimiento,
-            pesoDestete: pesoDesteteInputs,
+            pesoDestete: pesoDestete,
             temporada: epoca
           }),
         });
@@ -86,18 +89,14 @@ function Carne() {
   };
   
   const handleAddDestete = () => {
-    if (pesoDestete) {
-      setPesoDesteteInputs([...pesoDesteteInputs, pesoDestete]);
-      setPesoDestete("");
-    }
+    // if (pesoDestete) {
+    //   setPesoDesteteInputs([...pesoDesteteInputs, pesoDestete]);
+    //   setPesoDestete("");
+    // }
   };
 
   const handleCloseModal = () => {
     setShowModal(false);
-  };
-
-  const handleDisableAddButton = () => {
-    setIsAddButtonDisabled(true);
   };
 
   const handleGenerateReport = async () => {
@@ -106,7 +105,7 @@ function Carne() {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': `Bearer ${localStorage.getItem('token')}`, // Agrega el token para la autenticación
+          'Authorization': `Bearer ${localStorage.getItem('token')}`,
         },
       });
 
@@ -131,7 +130,7 @@ function Carne() {
   };
 
   const handleGoHome = () => {
-    navigate('/'); // Cambia la ruta según sea necesario para la vista principal
+    navigate('/Home');
   };
 
   return (
@@ -216,59 +215,45 @@ function Carne() {
               />
             </div>
 
-            
             <div className="flex flex-col w-36 mb-4">
               <label className="text-lg mb-2 text-white">peso de destete</label>
               <div className="flex">
+                <input
+                  type="text"
+                  placeholder="peso destete"
+                  value={pesoDestete}
+                  onChange={(e) => setPesoDestete(e.target.value)}
+                  className="p-2 text-lg rounded border border-gray-300 text-black mr-4"
+                />
                 <AddButton
                   onClick={handleAddDestete}
                   disabled={isAddButtonDisabled}
-                  className="ml-4"
                 />
               </div>
               <p className="mt-2 text-sm text-white">¿El animal posee un peso de destete?</p>
             </div>
           </div>
 
-            <div className="flex flex-col w-36 mb-4">
-              <label className="text-lg mb-2 text-white">época</label>
-              <input
-                type="text"
-                placeholder="invierno"
-                value={epoca}
-                onChange={(e) => setEpoca(e.target.value)}
-                className="p-2 text-lg rounded border border-gray-300 text-black"
-              />
-            </div>
-
-          <div className="flex flex-col w-full mb-6">
-            <div className="flex flex-wrap gap-8 mb-6">
-              {pesoDesteteInputs.map((input, index) => (
-                <div key={index} className="flex items-center mb-2">
-                  <input
-                    type="text"
-                    value={input}
-                    readOnly
-                    className="p-2 text-lg rounded border border-gray-300 text-black w-36"
-                  />
-                  <button
-                    type="button"
-                    onClick={() => setPesoDesteteInputs(pesoDesteteInputs.filter((_, i) => i !== index))}
-                    className="ml-4 text-red-500"
-                  >
-                    x
-                  </button>
-                </div>
-              ))}
-            </div>
-            <div className="flex justify-center gap-4">
-              <PrincipalButton onClick={handleConfirmData} className="w-36" text="Confirmar datos"/>
-              <PrincipalButton onClick={handleGenerateReport} className= "w-36" text="Reporte por animal"/>
-              <PrincipalButton onClick={handleGoHome} className= "w-36" text="Volver al Home"/>
-            </div>
+          <div className="flex flex-col w-36 mb-4">
+            <label className="text-lg mb-2 text-white">época</label>
+            <input
+              type="text"
+              placeholder="invierno"
+              value={epoca}
+              onChange={(e) => setEpoca(e.target.value)}
+              className="p-2 text-lg rounded border border-gray-300 text-black"
+            />
           </div>
         </div>
+        
+        <div className="flex justify-center gap-8 mb-6">
+          <PrincipalButton onClick={handleConfirmData} text="Confirmar datos"/>
+          <PrincipalButton onClick={handleGenerateReport} text="Reporte"/>
+          <PrincipalButton onClick={handleGoHome} text="Volver al home"/>
+        </div>
       </form>
+
+      {/* Modal */}
       {showModal && <ModalCarne onClose={handleCloseModal} />}
     </div>
   );
