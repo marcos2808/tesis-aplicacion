@@ -14,7 +14,7 @@ function Leche() {
     milkAverage: "",
     daysProductionAverage: "",
   });
-  const [extraFields, setExtraFields] = useState([]);
+  const [extraFields, setExtraFields] = useState([]); // No mostramos los inputs adicionales hasta hacer clic en el botón
   const [showModal, setShowModal] = useState(false);
 
   const handleChange = (e) => {
@@ -25,7 +25,6 @@ function Leche() {
     }));
   };
 
-  // Función para agregar hasta 2 campos adicionales
   const handleAddFields = () => {
     if (extraFields.length < 2) {
       setExtraFields((prevFields) => [
@@ -108,7 +107,6 @@ function Leche() {
       });
 
       if (response.ok) {
-        // Crear un enlace para descargar el archivo Excel
         const blob = await response.blob();
         const url = window.URL.createObjectURL(blob);
         const link = document.createElement('a');
@@ -126,7 +124,6 @@ function Leche() {
       alert('Error al intentar generar el reporte. Por favor, intente de nuevo.');
     }
   };
-
 
   const handleCloseModal = () => setShowModal(false);
 
@@ -221,23 +218,20 @@ function Leche() {
               type="text"
               value={field.produccionTotalA305Dias}
               onChange={(e) => handleExtraFieldChange(index, "produccionTotalA305Dias", e.target.value)}
-              placeholder="ej: 120 litros"
+              placeholder="ej: 200 litros"
               className="p-2 text-lg rounded border border-gray-300 text-black w-full"
             />
           </div>
         ))}
-      </form>
-      <div className="flex items-center gap-6 mt-5">
         <AddButton onClick={handleAddFields} disabled={extraFields.length >= 2} />
-        <p className="text-lg max-w-[400px] text-center">Cuando su animal tenga 305 días lactando haga click en el +.</p>
-      </div>
-      <div className="flex flex-col md:flex-row md:justify-between gap-4 w-full mt-5">
+      </form>
+      <div className="mt-8 flex gap-5">
         <PrincipalButton text="Confirmar datos" onClick={handleConfirmData} />
         <PrincipalButton text="Volver al home" onClick={() => navigate("/Home")} />
         <PrincipalButton text="Lactancia por animal"  onClick={handleGenerateReport} />
         <PrincipalButton text="Producción diaria" onClick={() => navigate("/Diaria")} />
       </div>
-      {showModal && <ModalLeche onClose={handleCloseModal} />}
+        {showModal && <ModalLeche onClose={handleCloseModal} />}  
     </div>
   );
 }
