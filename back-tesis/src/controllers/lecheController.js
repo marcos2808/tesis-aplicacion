@@ -19,22 +19,7 @@ class LecheController {
                 produccionTotal,
                 produccionTotalDias,
                 produccionA305Dias,
-                produccionTotalA305Dias,
-                lactancia1,
-                duracionLactancia1,
-                lactancia2,
-                duracionLactancia2,
-                lactancia3,
-                duracionLactancia3,
-                lactancia4,
-                duracionLactancia4,
-                lactancia5,
-                duracionLactancia5,
-                lactancia1A305,
-                lactancia2A305,
-                lactancia3A305,
-                lactancia4A305,
-                lactancia5A305,
+                produccionTotalA305Dias
             });
 
             await leche.save();
@@ -45,10 +30,10 @@ class LecheController {
     }
 
     async updateLeche(req, res) {
-        const { id, animal, produccionTotal, produccionTotalDias, produccionA305Dias, produccionTotalA305Dias, lactancia1, duracionLactancia1, lactancia2, duracionLactancia2, lactancia3, duracionLactancia3, lactancia4, duracionLactancia4, lactancia5, duracionLactancia5, lactancia1A305, lactancia2A305, lactancia3A305, lactancia4A305, lactancia5A305 } = req.body;
+        const { id, produccionTotal, produccionTotalDias, produccionA305Dias, produccionTotalA305Dias, lactancia1, duracionLactancia1, lactancia2, duracionLactancia2, lactancia3, duracionLactancia3, lactancia4, duracionLactancia4, lactancia5, duracionLactancia5, lactancia1A305, lactancia2A305, lactancia3A305, lactancia4A305, lactancia5A305 } = req.body;
         const fundoId = req.user._id;
 
-        if (!id || !animal) return res.status(400).json({ message: "El ID del registro y el ID del animal son obligatorios para actualizar el registro de leche" });
+        if (!id) return res.status(400).json({ message: "El ID del registro y el ID del animal son obligatorios para actualizar el registro de leche" });
 
         try {
             const leche = await Leche.findOne({ _id: id, animal, fundo: fundoId });

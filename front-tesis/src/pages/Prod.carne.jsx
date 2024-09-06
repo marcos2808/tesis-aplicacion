@@ -50,7 +50,7 @@ function Carne() {
       const dataAnimal = await responseAnimal.json();
 
       console.log(dataAnimal);
-      console.log(sexo, pesoAlNacer, fechaNacimiento, pesoDesteteInputs, epoca)
+      console.log(sexo, pesoAlNacer, fechaNacimiento, pesoDestete, epoca)
       if (responseAnimal.ok) {
         console.log("Animal creado:", dataAnimal);
   
