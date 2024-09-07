@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import PrincipalButton from "../components/PrincipalButton";
 import { useNavigate } from 'react-router-dom';
 
-function Peso({ carneId, animalId }) {
+function Peso({ carneId }) {
   const navigate = useNavigate();
   
   // Estado para los inputs del formulario
