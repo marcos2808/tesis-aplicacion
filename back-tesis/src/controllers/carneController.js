@@ -39,7 +39,7 @@ class CarneController {
         if (!id ) return res.status(400).json({ message: "El ID del registro es obligatorios para actualizar el registro de carne" });
 
         try {
-            const carne = await Carne.findOne({ _id: id, animal: animalId, fundo: fundoId });
+            const carne = await Carne.findOne({ _id: id, fundo: fundoId });
             if (!carne) return res.status(404).json({ message: "Registro de carne no encontrado" });
 
             if (pesoAnio !== undefined) carne.pesoAnio = pesoAnio;

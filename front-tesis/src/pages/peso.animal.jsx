@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import PrincipalButton from "../components/PrincipalButton";
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 
 function Peso({ carneId }) {
   const navigate = useNavigate();
@@ -12,24 +12,27 @@ function Peso({ carneId }) {
   const [fecha18Meses, setFecha18Meses] = useState("");
   const [peso24Meses, setPeso24Meses] = useState("");
   const [fecha24Meses, setFecha24Meses] = useState("");
+  const {id} = useParams()
+
 
   const handleConfirmData = async () => {
+
     // Validar que se hayan llenado los campos necesarios
     if (!pesoAnio || !fechaAnio || !peso18Meses || !fecha18Meses || !peso24Meses || !fecha24Meses) {
       alert("Por favor, complete todos los campos antes de confirmar.");
       return;
     }
-
+    console.log(pesoAnio, fechaAnio, peso18Meses, fecha18Meses, peso24Meses, fecha24Meses);
     try {
       // Realizar la solicitud al método updateCarne
-      const response = await fetch('http://localhost:5000/api/carne/update', {
+      const response = await fetch('http://localhost:5000/api/carne/updateCarne', {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
           'Authorization': `Bearer ${localStorage.getItem('token')}`,
         },
         body: JSON.stringify({
-          id: carneId,  // ID del registro de carne
+          id,  // ID del registro de carne
           pesoAnio,
           fechaAnio,
           peso18Meses,

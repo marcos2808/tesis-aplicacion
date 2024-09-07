@@ -1,10 +1,11 @@
 import React, { useState } from "react";
 import PrincipalButton from "../components/PrincipalButton";
+import { useNavigate } from "react-router-dom";
 
 function Diaria() {
     const [animalNumber, setAnimalNumber] = useState("");
     const [produccionDiaria, setProduccionDiaria] = useState("");
-
+    const navigate = useNavigate();
     const handleConfirmarDatos = async () => {
 
         try {
@@ -26,6 +27,8 @@ function Diaria() {
                 // Limpiar inputs si se actualizó correctamente
                 setAnimalNumber("");
                 setProduccionDiaria("");
+                navigate("/Leche")
+                
             } else {
                 alert(data.message || "Error al actualizar la producción diaria.");
             }
@@ -34,6 +37,8 @@ function Diaria() {
             alert("Ocurrió un error al actualizar los datos.");
         }
     };
+
+    
 
     return (
         <div className="flex flex-col items-center p-4 bg-[#0F250E] text-white min-h-screen">

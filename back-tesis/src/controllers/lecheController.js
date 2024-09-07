@@ -34,7 +34,7 @@ class LecheController {
         if (!id) return res.status(400).json({ message: "El ID del registro y el ID del animal son obligatorios para actualizar el registro de leche" });
 
         try {
-            const leche = await Leche.findOne({ _id: id, animal, fundo: fundoId });
+            const leche = await Leche.findOne({ _id: id, fundo: fundoId });
             if (!leche) return res.status(404).json({ message: "Registro de leche no encontrado" });
 
             // Actualizar los campos si se proporcionan
@@ -68,7 +68,9 @@ class LecheController {
         const fundoId = req.user._id;
 
         try {
-            const leche = await Leche.findOne({ animal: animal, fundo: fundoId });
+            const {_id} = await Animal.findOne({ animal: animal });
+            console.log(_id);
+            const leche = await Leche.findOne({ animal: _id, fundo: fundoId });
             if (!leche) return res.status(404).json({ message: "Registro de leche no encontrado" });
 
             // Actualizar la producción diaria y recalcular el promedio

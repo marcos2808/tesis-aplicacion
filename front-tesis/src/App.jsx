@@ -20,9 +20,9 @@ function App() {
         <Route path="/Home" element = {<Home/>}/>
         <Route path="/Carne" element = {<Carne/>}/>
         <Route path="/Leche" element = {<Leche/>}/>
-        <Route path="/Peso" element = {<Peso/>}/>
+        <Route path="/Peso/:id" element = {<Peso/>}/>
         <Route path="/Produccion" element = {<Produccion/>}/>
-        <Route path="/Lactancia" element = {<Lactancia/>}/>
+        <Route path="/Lactancia/:id" element = {<Lactancia/>}/>
       </Routes>
     </BrowserRouter>
   )

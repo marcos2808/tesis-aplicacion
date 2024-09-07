@@ -19,6 +19,7 @@ function Carne() {
   const [pesoAlNacer, setPesoAlNacer] = useState("");
   const [fechaNacimiento, setFechaNacimiento] = useState("");
   const [pesoDestete, setPesoDestete] = useState("");
+  const [id, setid] = useState("");
 
   const handleConfirmData = async () => {
     // Validar que todos los campos de la primera fila estén completos
@@ -69,7 +70,9 @@ function Carne() {
         });
   
         const dataCarne = await responseCarne.json();
-  
+        setid(dataCarne.carne._id)
+        console.log(dataCarne.carne._id)
+
         if (responseCarne.ok) {
           console.log("Registro de carne creado:", dataCarne);
           setShowModal(true);
@@ -243,7 +246,7 @@ function Carne() {
       </form>
 
       {/* Modal */}
-      {showModal && <ModalCarne onClose={handleCloseModal} />}
+      {showModal && <ModalCarne  id_Carne={id} onClose={handleCloseModal} />}
     </div>
   );
 }

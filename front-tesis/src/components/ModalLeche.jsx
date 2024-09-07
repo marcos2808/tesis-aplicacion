@@ -2,12 +2,13 @@
     import { useNavigate } from "react-router-dom";
     import PrincipalButton from "./PrincipalButton";
 
-    function ModalLeche({ onClose }) {
+    function ModalLeche({ onClose, id }) {
 
         const navigate = useNavigate();
 
+
         const handleYesClick = () => {
-            navigate('/Lactansia'); // Redirige a la vista Lactansia
+            navigate(`/Lactancia/${id}`); // Redirige a la vista Lactansia
         };
 
 

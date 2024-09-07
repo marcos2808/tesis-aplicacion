@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import PrincipalButton from "../components/PrincipalButton";
-// import AddButton from "../components/AddButton";
 import ModalLeche from "../components/ModalLeche";
 
 function Leche() {
@@ -14,8 +13,8 @@ function Leche() {
     milkAverage: "",
     daysProductionAverage: "",
   });
-  // const [extraFields, setExtraFields] = useState([]); // No mostramos los inputs adicionales hasta hacer clic en el botón
   const [showModal, setShowModal] = useState(false);
+  const [id, setid] = useState("");
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -24,21 +23,6 @@ function Leche() {
       [name]: value,
     }));
   };
-
-  // const handleAddFields = () => {
-  //   if (extraFields.length < 2) {
-  //     setExtraFields((prevFields) => [
-  //       ...prevFields,
-  //       { produccionA305Dias: "", produccionTotalA305Dias: "" },
-  //     ]);
-  //   }
-  // };
-
-  // const handleExtraFieldChange = (index, field, value) => {
-  //   const updatedFields = [...extraFields];
-  //   updatedFields[index][field] = value;
-  //   setExtraFields(updatedFields);
-  // };
 
   const handleConfirmData = async () => {
     const { animalNumber, fatherNumber, motherNumber, raza, milkAverage, daysProductionAverage} = animalData;
@@ -79,6 +63,7 @@ function Leche() {
         });
 
         const dataLeche = await responseLeche.json();
+        setid(dataLeche.leche._id)
         if (responseLeche.ok) {
           console.log("Registro de leche creado:", dataLeche);
           setShowModal(true);
@@ -201,35 +186,14 @@ function Leche() {
             />
           </div>
         </div>
-        {/* {extraFields.map((field, index) => (
-          <div key={index} className="flex flex-col w-80 mb-4">
-            <label className="text-lg mb-1">Producción a 305 días</label>
-            <input
-              type="text"
-              value={field.produccionA305Dias}
-              onChange={(e) => handleExtraFieldChange(index, "produccionA305Dias", e.target.value)}
-              placeholder="ej: 100 litros"
-              className="p-2 text-lg rounded border border-gray-300 text-black w-full"
-            />
-            <label className="text-lg mb-1 mt-2">Producción total a 305 días</label>
-            <input
-              type="text"
-              value={field.produccionTotalA305Dias}
-              onChange={(e) => handleExtraFieldChange(index, "produccionTotalA305Dias", e.target.value)}
-              placeholder="ej: 200 litros"
-              className="p-2 text-lg rounded border border-gray-300 text-black w-full"
-            />
-          </div>
-        ))}
-        <AddButton onClick={handleAddFields} disabled={extraFields.length >= 2} /> */}
       </form>
       <div className="mt-8 flex gap-5">
         <PrincipalButton text="Confirmar datos" onClick={handleConfirmData} />
         <PrincipalButton text="Volver al home" onClick={() => navigate("/Home")} />
         <PrincipalButton text="Lactancia por animal"  onClick={handleGenerateReport} />
-        <PrincipalButton text="Producción diaria" onClick={() => navigate("/Diaria")} />
+        <PrincipalButton text="Producción diaria" onClick={() => navigate("/Produccion")} />
       </div>
-        {showModal && <ModalLeche onClose={handleCloseModal} />}  
+        {showModal && <ModalLeche id ={id} onClose={handleCloseModal} />}  
     </div>
   );
 }

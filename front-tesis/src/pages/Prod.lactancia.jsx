@@ -1,9 +1,17 @@
 import React, { useState } from "react";
 import AddButton from "../components/AddButton";
 import PrincipalButton from "../components/PrincipalButton";
+import { useParams, useNavigate } from "react-router-dom";
 
 function Lactancia() {
   const [inputs, setInputs] = useState([]);
+  const [produccionA305Dias, setProduccionA305Dias] = useState('');
+  const [produccionTotalA305Dias, setProduccionTotalA305Dias] = useState('');
+  const [lactancia1, setLactancia1] = useState('');
+  const [duracionLactancia1, setDuracionLactancia1] = useState('');
+  
+  const { id } = useParams();
+  const navigate = useNavigate();
 
   const handleAddInputs = (newInputs) => {
     setInputs(newInputs);
@@ -11,11 +19,78 @@ function Lactancia() {
 
   const handleSubmit = async () => {
     const data = {
-      produccionA305Dias: inputs[0],
-      produccionTotalA305Dias: inputs[1],
-      lactancia1: inputs[2],
-      duracionLactancia1: inputs[3],
+      id,
+      produccionA305Dias,
+      produccionTotalA305Dias,
+      lactancia1,
+      duracionLactancia1,
+      lactancia2: undefined,
+      duracionLactancia2: undefined,
+      lactancia3: undefined,
+      duracionLactancia3: undefined,
+      lactancia4: undefined,
+      duracionLactancia4: undefined,
+      lactancia5: undefined,
+      duracionLactancia5: undefined,
+      lactancia1A305: undefined,
+      lactancia2A305: undefined,
+      lactancia3A305: undefined,
+      lactancia4A305: undefined,
+      lactancia5A305: undefined // otros datos de inputs agregados dinámicamente
     };
+    if(inputs[0]){
+      data.lactancia2 = inputs[0]
+    };
+
+    if(inputs[1]){
+      data.duracionLactancia2 = inputs[1]
+    };
+
+    if(inputs[2]){
+      data.lactancia3 = inputs[2]
+    };
+
+    if(inputs[3]){
+      data.duracionLactancia3 = inputs[3]
+    };
+
+    if(inputs[4]){
+      data.lactancia4 = inputs[4]
+    };
+
+    if(inputs[5]){
+      data.duracionLactancia4 = inputs[5]
+    };
+
+    if(inputs[6]){
+      data.lactancia5 = inputs[6]
+    };
+
+    if(inputs[7]){
+      data.duracionLactancia5 = inputs[7]
+    };
+
+    if(inputs[8]){
+      data.lactancia1A305 = inputs[8]
+    };
+
+    if(inputs[9]){
+      data.lactancia2A305 = inputs[9]
+    };
+
+    if(inputs[10]){
+      data.lactancia3A305 = inputs[10]
+    };
+
+    if(inputs[11]){
+      data.lactancia4A305 = inputs[11]
+    };
+
+    if(inputs[12]){
+      data.lactancia5A305 = inputs[12]
+    };
+
+    console.log(data);
 
     try {
       const response = await fetch("http://localhost:5000/api/leche/updateLeche", {
@@ -50,6 +125,8 @@ function Lactancia() {
               type="text"
               placeholder="ej: 305 litros"
               className="p-2 rounded border border-gray-300 bg-white text-black"
+              value={produccionA305Dias}
+              onChange={(e) => setProduccionA305Dias(e.target.value)} // Captura el valor del input
             />
           </div>
           <div className="flex flex-col">
@@ -58,6 +135,8 @@ function Lactancia() {
               type="text"
               placeholder="ej: 365 días"
               className="p-2 rounded border border-gray-300 bg-white text-black"
+              value={produccionTotalA305Dias}
+              onChange={(e) => setProduccionTotalA305Dias(e.target.value)} // Captura el valor del input
             />
           </div>
         </div>
@@ -69,6 +148,8 @@ function Lactancia() {
               type="text"
               placeholder="ej: 150 litros"
               className="p-2 rounded border border-gray-300 bg-white text-black"
+              value={lactancia1}
+              onChange={(e) => setLactancia1(e.target.value)} // Captura el valor del input
             />
           </div>
           <div className="flex flex-col">
@@ -77,6 +158,8 @@ function Lactancia() {
               type="text"
               placeholder="ej: 60 días"
               className="p-2 rounded border border-gray-300 bg-white text-black"
+              value={duracionLactancia1}
+              onChange={(e) => setDuracionLactancia1(e.target.value)} // Captura el valor del input
             />
           </div>
           <div className="flex items-center ml-4 col-span-2 sm:col-span-1">
