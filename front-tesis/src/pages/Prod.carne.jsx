@@ -30,7 +30,7 @@ function Carne() {
   
     try {
       // Crear el animal
-      const responseAnimal = await fetch('http://localhost:5000/api/animal/createAnimal', {
+      const responseAnimal = await fetch('https://tesis-aplicacion.onrender.com/api/animal/createAnimal', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -53,7 +53,7 @@ function Carne() {
         console.log("Animal creado:", dataAnimal);
   
         // Crear el registro de carne usando el ID del animal
-        const responseCarne = await fetch('http://localhost:5000/api/carne/createCarne', {
+        const responseCarne = await fetch('https://tesis-aplicacion.onrender.com/api/carne/createCarne', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
@@ -95,7 +95,7 @@ function Carne() {
 
   const handleGenerateReport = async () => {
     try {
-      const response = await fetch('http://localhost:5000/api/carne/reporteCarne', {
+      const response = await fetch('https://tesis-aplicacion.onrender.com/api/carne/reporteCarne', {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',

@@ -93,7 +93,7 @@ function Lactancia() {
     console.log(data);
 
     try {
-      const response = await fetch("http://localhost:5000/api/leche/updateLeche", {
+      const response = await fetch("https://tesis-aplicacion.onrender.com/leche/updateLeche", {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",

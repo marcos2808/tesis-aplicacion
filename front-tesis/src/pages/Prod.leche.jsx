@@ -35,7 +35,7 @@ function Leche() {
 
     try {
       // Crear el animal
-      const responseAnimal = await fetch("http://localhost:5000/api/animal/createAnimal", {
+      const responseAnimal = await fetch("https://tesis-aplicacion.onrender.com/api/animal/createAnimal", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -49,7 +49,7 @@ function Leche() {
         console.log("Animal creado:", dataAnimal);
 
         // Crear el registro de leche
-        const responseLeche = await fetch("http://localhost:5000/api/leche/createLeche", {
+        const responseLeche = await fetch("https://tesis-aplicacion.onrender.com/api/leche/createLeche", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
@@ -81,7 +81,7 @@ function Leche() {
 
   const handleGenerateReport = async () => {
     try {
-      const response = await fetch('http://localhost:5000/api/leche/reporteLeche', {
+      const response = await fetch('https://tesis-aplicacion.onrender.com/api/leche/reporteLeche', {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',

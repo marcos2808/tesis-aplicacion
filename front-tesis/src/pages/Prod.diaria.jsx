@@ -9,7 +9,7 @@ function Diaria() {
     const handleConfirmarDatos = async () => {
 
         try {
-            const response = await fetch("http://localhost:5000/api/leche/updateProduccionDiaria", {
+            const response = await fetch("https://tesis-aplicacion.onrender.com/api/leche/updateProduccionDiaria", {
                 method: "PUT",
                 headers: {
                     'Content-Type': 'application/json',

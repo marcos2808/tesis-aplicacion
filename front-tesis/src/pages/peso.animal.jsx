@@ -25,7 +25,7 @@ function Peso({ carneId }) {
     console.log(pesoAnio, fechaAnio, peso18Meses, fecha18Meses, peso24Meses, fecha24Meses);
     try {
       // Realizar la solicitud al método updateCarne
-      const response = await fetch('http://localhost:5000/api/carne/updateCarne', {
+      const response = await fetch('https://tesis-aplicacion.onrender.com/api/carne/updateCarne', {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
