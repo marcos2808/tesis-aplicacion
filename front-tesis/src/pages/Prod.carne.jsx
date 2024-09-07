@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import AddButton from "../components/AddButton";
 import PrincipalButton from "../components/PrincipalButton";
 import { useNavigate } from 'react-router-dom';
 import ModalCarne from "../components/ModalCarne";
@@ -7,7 +6,6 @@ import ModalCarne from "../components/ModalCarne";
 function Carne() {
   const navigate = useNavigate();
   const [showModal, setShowModal] = useState(false);
-  const [isAddButtonDisabled, setIsAddButtonDisabled] = useState(false);
 
   // Estado para los inputs de la primera fila
   const [animal, setAnimal] = useState("");
@@ -21,7 +19,6 @@ function Carne() {
   const [pesoAlNacer, setPesoAlNacer] = useState("");
   const [fechaNacimiento, setFechaNacimiento] = useState("");
   const [pesoDestete, setPesoDestete] = useState("");
-  const [pesoDesteteInputs, setPesoDesteteInputs] = useState([]);
 
   const handleConfirmData = async () => {
     // Validar que todos los campos de la primera fila estén completos
@@ -88,12 +85,6 @@ function Carne() {
     }
   };
   
-  const handleAddDestete = () => {
-    // if (pesoDestete) {
-    //   setPesoDesteteInputs([...pesoDesteteInputs, pesoDestete]);
-    //   setPesoDestete("");
-    // }
-  };
 
   const handleCloseModal = () => {
     setShowModal(false);
@@ -181,6 +172,7 @@ function Carne() {
               />
             </div>
           </div>
+        </div>
           
           {/* Segunda fila */}
           <div className="flex flex-wrap gap-8 mb-6 items-end">
@@ -225,26 +217,23 @@ function Carne() {
                   onChange={(e) => setPesoDestete(e.target.value)}
                   className="p-2 text-lg rounded border border-gray-300 text-black mr-4"
                 />
-                <AddButton
-                  onClick={handleAddDestete}
-                  disabled={isAddButtonDisabled}
-                />
               </div>
-              <p className="mt-2 text-sm text-white">¿El animal posee un peso de destete?</p>
             </div>
-          </div>
-
-          <div className="flex flex-col w-36 mb-4">
-            <label className="text-lg mb-2 text-white">época</label>
-            <input
+            
+            <div className="flex flex-col w-36 mb-4">
+              <label className="text-lg mb-2 text-white">época</label>
+              <input
               type="text"
               placeholder="invierno"
               value={epoca}
               onChange={(e) => setEpoca(e.target.value)}
               className="p-2 text-lg rounded border border-gray-300 text-black"
-            />
+              />
+            </div>
+
           </div>
-        </div>
+
+        
         
         <div className="flex justify-center gap-8 mb-6">
           <PrincipalButton onClick={handleConfirmData} text="Confirmar datos"/>

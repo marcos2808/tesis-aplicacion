@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import PrincipalButton from "../components/PrincipalButton";
-import AddButton from "../components/AddButton";
+// import AddButton from "../components/AddButton";
 import ModalLeche from "../components/ModalLeche";
 
 function Leche() {
@@ -14,7 +14,7 @@ function Leche() {
     milkAverage: "",
     daysProductionAverage: "",
   });
-  const [extraFields, setExtraFields] = useState([]); // No mostramos los inputs adicionales hasta hacer clic en el botón
+  // const [extraFields, setExtraFields] = useState([]); // No mostramos los inputs adicionales hasta hacer clic en el botón
   const [showModal, setShowModal] = useState(false);
 
   const handleChange = (e) => {
@@ -25,23 +25,23 @@ function Leche() {
     }));
   };
 
-  const handleAddFields = () => {
-    if (extraFields.length < 2) {
-      setExtraFields((prevFields) => [
-        ...prevFields,
-        { produccionA305Dias: "", produccionTotalA305Dias: "" },
-      ]);
-    }
-  };
+  // const handleAddFields = () => {
+  //   if (extraFields.length < 2) {
+  //     setExtraFields((prevFields) => [
+  //       ...prevFields,
+  //       { produccionA305Dias: "", produccionTotalA305Dias: "" },
+  //     ]);
+  //   }
+  // };
 
-  const handleExtraFieldChange = (index, field, value) => {
-    const updatedFields = [...extraFields];
-    updatedFields[index][field] = value;
-    setExtraFields(updatedFields);
-  };
+  // const handleExtraFieldChange = (index, field, value) => {
+  //   const updatedFields = [...extraFields];
+  //   updatedFields[index][field] = value;
+  //   setExtraFields(updatedFields);
+  // };
 
   const handleConfirmData = async () => {
-    const { animalNumber, fatherNumber, motherNumber, raza, milkAverage, daysProductionAverage } = animalData;
+    const { animalNumber, fatherNumber, motherNumber, raza, milkAverage, daysProductionAverage} = animalData;
 
     // Validación de campos obligatorios
     if (!animalNumber || !fatherNumber || !motherNumber || !raza) {
@@ -75,8 +75,6 @@ function Leche() {
             animal: dataAnimal.animal._id,
             produccionTotal: milkAverage,
             produccionTotalDias: daysProductionAverage,
-            produccionA305Dias: extraFields[0]?.produccionA305Dias || "",
-            produccionTotalA305Dias: extraFields[0]?.produccionTotalA305Dias || "",
           }),
         });
 
@@ -203,7 +201,7 @@ function Leche() {
             />
           </div>
         </div>
-        {extraFields.map((field, index) => (
+        {/* {extraFields.map((field, index) => (
           <div key={index} className="flex flex-col w-80 mb-4">
             <label className="text-lg mb-1">Producción a 305 días</label>
             <input
@@ -223,7 +221,7 @@ function Leche() {
             />
           </div>
         ))}
-        <AddButton onClick={handleAddFields} disabled={extraFields.length >= 2} />
+        <AddButton onClick={handleAddFields} disabled={extraFields.length >= 2} /> */}
       </form>
       <div className="mt-8 flex gap-5">
         <PrincipalButton text="Confirmar datos" onClick={handleConfirmData} />

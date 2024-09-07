@@ -26,6 +26,7 @@ function Peso({ carneId, animalId }) {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
+          'Authorization': `Bearer ${localStorage.getItem('token')}`,
         },
         body: JSON.stringify({
           id: carneId,  // ID del registro de carne
@@ -129,7 +130,7 @@ function Peso({ carneId, animalId }) {
         {/* Botones de Confirmar y Volver */}
         <div className="flex flex-col sm:flex-row sm:justify-center gap-4 mt-6">
           <PrincipalButton text="Confirmar datos" onClick={handleConfirmData} />
-          <PrincipalButton text="Volver" onClick={() => navigate('/')} />
+          <PrincipalButton text="Volver" onClick={() => navigate('/Carne')} />
         </div>
       </div>
     </div>

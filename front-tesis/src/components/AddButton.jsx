@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-const AddButton = ({ onAdd, maxInputs = 2 }) => {
+const AddButton = ({ onAdd, maxInputs = 13 }) => {
   const [inputs, setInputs] = useState([]);
   const [isButtonDisabled, setIsButtonDisabled] = useState(false);
 
@@ -40,24 +40,26 @@ const AddButton = ({ onAdd, maxInputs = 2 }) => {
         >
           <img src="/img/AddButton.svg" alt="Add" className="w-1/2 h-1/2" />
         </button>
-        <div className="flex flex-wrap gap-2">
-          {inputs.map((input, index) => (
-            <div key={index} className="flex items-center gap-2">
-              <input
-                type="text"
-                value={input}
-                onChange={(event) => handleInputChange(index, event)}
-                className="w-[150px] h-[50px] border border-gray-300 rounded-md px-2 text-black"
-              />
-              <button
-                className="w-[37.5px] h-[37.5px] bg-red-500 rounded-full flex items-center justify-center text-white"
-                onClick={() => removeInput(index)}
-              >
-                &times;
-              </button>
-            </div>
-          ))}
-        </div>
+      </div>
+
+      {/* Aquí se alinean los inputs en filas */}
+      <div className="flex flex-wrap gap-4">
+        {inputs.map((input, index) => (
+          <div key={index} className="flex items-center gap-2">
+            <input
+              type="text"
+              value={input}
+              onChange={(event) => handleInputChange(index, event)}
+              className="w-[150px] h-[50px] border border-gray-300 rounded-md px-2 text-black flex flex-wrap gap-4"
+            />
+            <button
+              className="w-[37.5px] h-[37.5px] bg-red-500 rounded-full flex items-center justify-center text-white"
+              onClick={() => removeInput(index)}
+            >
+              &times;
+            </button>
+          </div>
+        ))}
       </div>
     </div>
   );

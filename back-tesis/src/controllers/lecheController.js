@@ -5,7 +5,7 @@ import { mean, std, max, min } from 'mathjs';
 
 class LecheController {
     async createLeche(req, res) {
-        const { animal, produccionTotal, produccionTotalDias, produccionA305Dias, produccionTotalA305Dias, lactancia1, duracionLactancia1, lactancia2, duracionLactancia2, lactancia3, duracionLactancia3, lactancia4, duracionLactancia4, lactancia5, duracionLactancia5, lactancia1A305, lactancia2A305, lactancia3A305, lactancia4A305, lactancia5A305 } = req.body;
+        const { animal, produccionTotal, produccionTotalDias }= req.body;
         const fundoId = req.user._id;
 
         if (!animal || !produccionTotal || !produccionTotalDias) {
@@ -18,8 +18,6 @@ class LecheController {
                 animal,
                 produccionTotal,
                 produccionTotalDias,
-                produccionA305Dias,
-                produccionTotalA305Dias
             });
 
             await leche.save();
@@ -30,7 +28,7 @@ class LecheController {
     }
 
     async updateLeche(req, res) {
-        const { id, produccionTotal, produccionTotalDias, produccionA305Dias, produccionTotalA305Dias, lactancia1, duracionLactancia1, lactancia2, duracionLactancia2, lactancia3, duracionLactancia3, lactancia4, duracionLactancia4, lactancia5, duracionLactancia5, lactancia1A305, lactancia2A305, lactancia3A305, lactancia4A305, lactancia5A305 } = req.body;
+        const { id, produccionA305Dias, produccionTotalA305Dias, lactancia1, duracionLactancia1, lactancia2, duracionLactancia2, lactancia3, duracionLactancia3, lactancia4, duracionLactancia4, lactancia5, duracionLactancia5, lactancia1A305, lactancia2A305, lactancia3A305, lactancia4A305, lactancia5A305 } = req.body;
         const fundoId = req.user._id;
 
         if (!id) return res.status(400).json({ message: "El ID del registro y el ID del animal son obligatorios para actualizar el registro de leche" });
@@ -40,8 +38,6 @@ class LecheController {
             if (!leche) return res.status(404).json({ message: "Registro de leche no encontrado" });
 
             // Actualizar los campos si se proporcionan
-            if (produccionTotal !== undefined) leche.produccionTotal = produccionTotal;
-            if (produccionTotalDias !== undefined) leche.produccionTotalDias = produccionTotalDias;
             if (produccionA305Dias !== undefined) leche.produccionA305Dias = produccionA305Dias;
             if (produccionTotalA305Dias !== undefined) leche.produccionTotalA305Dias = produccionTotalA305Dias;
             if (lactancia1 !== undefined) leche.lactancia1 = lactancia1;

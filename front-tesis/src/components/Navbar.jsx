@@ -11,15 +11,12 @@ function Navbar() {
   };
 
   const handleLogout = () => {
-    navigate('/Login');
+    localStorage.clear();
+    navigate('/Login');   
   };
 
   return (
     <nav className="bg-[#0F250E] fixed top-0 left-0 w-full h-[151px] flex items-center justify-between px-4 z-50">
-      {/* Logo (si se desea añadir) */}
-      {/* <div className="w-[220px] h-[151px]">
-        <img src={logo} alt="Logo" className="w-full h-full object-cover" />
-      </div> */}
       
       <div className="relative flex-1 flex justify-center">
         <button 

@@ -6,7 +6,7 @@ import Carne from "./pages/Prod.carne.jsx";
 import Leche from "./pages/Prod.leche.jsx";
 import Peso from "./pages/peso.animal.jsx";
 import Produccion from "./pages/Prod.diaria.jsx";
-import Lactansia from "./pages/Prod.lactansia.jsx";
+import Lactancia from "./pages/Prod.lactancia.jsx";
 
 
 function App() {
@@ -22,7 +22,7 @@ function App() {
         <Route path="/Leche" element = {<Leche/>}/>
         <Route path="/Peso" element = {<Peso/>}/>
         <Route path="/Produccion" element = {<Produccion/>}/>
-        <Route path="/Lactansia" element = {<Lactansia/>}/>
+        <Route path="/Lactancia" element = {<Lactancia/>}/>
       </Routes>
     </BrowserRouter>
   )
