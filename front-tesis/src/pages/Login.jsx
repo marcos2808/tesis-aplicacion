@@ -64,7 +64,6 @@ function Login() {
             className="w-full p-2 text-lg border rounded"
           />
         </div>
-        <p className="text-white text-lg font-bold mb-5 cursor-pointer text-center" onClick={() => alert("Funcionalidad de recuperación de contraseña no implementada.")}>¿Olvidó su contraseña?</p>
         <PrincipalButton text="Iniciar sesión" onClick={handleLogin} />
         <p className="text-white text-lg mt-5">¿No tiene cuenta? <span onClick={handleRegisterNavigation} className="font-bold cursor-pointer">Registrarse</span></p>
       </div>
